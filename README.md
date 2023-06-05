@@ -20,28 +20,31 @@ Grading:
     50% Homework assignments and final project
     50% Class Participation
     
-Introduction
+* Introduction
 
-Web Mapping Fundamentals
+* Web Mapping Fundamentals
 
-Mapping Resources
-    Where to get data
-    Where to host data
-    How to edit data
-    Libraries
-    Documentation/Forums
-    Awesome
+* Mapping Resources
+    * Where to get data
+    * Where to host data
+    * How to edit data
+    * Libraries
+    * Documentation/Forums
+    * Awesome 
+        * https://github.com/sshuair/awesome-gis
+        * https://github.com/mapbox/awesome-vector-tiles
+        * https://github.com/osmlab/awesome-openstreetmap
 
-MapLibre
+* MapLibre
 
-d3
+* d3
 
-Leaflet
+* Leaflet
 
-OpenLayers
+* OpenLayers
 
-Cesium
+* Cesium
 
-Workshop
+* Workshop
 
-Presentations
+* Presentations
