@@ -15,11 +15,18 @@ HTML/CSS for beginners: https://www.youtube.com/watch?v=qz0aGYrrlhU
 
 JS for beginners: https://www.youtube.com/watch?v=W6NZfCO5SIk
 
+Interesting Maps and other links:
+
+https://antievictionmap.com/
+
+https://timberfestival.org.uk/soundsoftheforest-soundmap/
+
 Grading:
 
     50% Homework assignments and final project
     50% Class Participation
     
+Links
 * Introduction
 
 * Web Mapping Fundamentals
