@@ -21,6 +21,8 @@ https://antievictionmap.com/
 
 https://timberfestival.org.uk/soundsoftheforest-soundmap/
 
+https://www.youtube.com/watch?v=U3Hf0qI4JLc - GRASS GIS 1987
+
 Grading:
 
     50% Homework assignments and final project
