@@ -44,11 +44,11 @@ Links
         * https://github.com/mapbox/awesome-vector-tiles
         * https://github.com/osmlab/awesome-openstreetmap
 
+* Leaflet
+
 * MapLibre
 
 * d3
-
-* Leaflet
 
 * OpenLayers
 
