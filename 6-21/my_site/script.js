@@ -18,7 +18,13 @@ marker.bindPopup("<b>City Name</b><br>Sandy Point")
 
 // thus begins 02
 
-
+const range_imps = axios('blm_idaho_range_improvement_point.geojson')
+    .then(resp => {
+        console.log(resp)
+        L.geoJSON(resp.data, {
+            style: { color: '#116ad2' }
+        })
+    })
 
 
 
