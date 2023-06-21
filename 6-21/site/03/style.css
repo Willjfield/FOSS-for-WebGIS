@@ -1,0 +1,11 @@
+.link-button{
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#map{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}

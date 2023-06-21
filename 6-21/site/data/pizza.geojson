@@ -1,0 +1,1 @@
+{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"name":"Pizza Suprema"},"geometry":{"coordinates":[-73.99518250887621,40.750152768409976],"type":"Point"}},{"type":"Feature","properties":{"name":"Joe's"},"geometry":{"coordinates":[-73.98764735330421,40.73329034825761],"type":"Point"}}]}
