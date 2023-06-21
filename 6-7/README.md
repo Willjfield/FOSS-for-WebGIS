@@ -6,8 +6,6 @@
     - Github (git optional)
 
 - How to set up a library
-- What is Foss
-- Web Map Fundamentals (if time)
 
 ## HOMEWORK:
 
