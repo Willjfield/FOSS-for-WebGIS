@@ -1,5 +1,5 @@
-//Add Layer controls
-
+//https://github.com/IvanSanchez/Leaflet.Polyline.SnakeAnim
+//https://ivansanchez.gitlab.io/gleo/
 let map = L.map('map').setView([40.7, -73.9], 11);
 
 //http://maps.stamen.com/#terrain/12/37.7706/-122.3782
@@ -58,6 +58,11 @@ const subways = axios('../data/subways.geojson').then(resp => {
 
 
             }
+        },
+        onEachFeature: function (feature, layer) {
+            if (feature.properties && feature.properties.rt_symbol) {
+                layer.bindPopup(feature.properties.rt_symbol);
+            }
         }
     }).addTo(map).bringToBack();
 });
@@ -77,7 +82,30 @@ const pizza = axios('../data/pizza.geojson').then(resp => {
     L.geoJSON(resp.data, {
         pointToLayer: function (feature, latlng) {
             return L.circleMarker(latlng, geojsonMarkerOptions);
+        },
+        onEachFeature: function (feature, layer) {
+            if (feature.properties && feature.properties.name) {
+                layer.bindPopup(feature.properties.name);
+            }
         }
     }).addTo(map).bringToFront();
 
-})
+    console.log(resp.data)
+
+    const points = resp.data.features
+        .map(f=>new L.LatLng(f.geometry.coordinates[1],f.geometry.coordinates[0]));
+
+    var line = L.polyline(points, {snakingSpeed: 20});
+    line.addTo(map).snakeIn();
+
+});
+
+//Walking area
+const walking = axios('../data/walk-area.geojson').then(resp => {
+
+    L.geoJSON(resp.data, {
+        style: { opacity: 0.95, color: "#000", weight: 2 }
+    }).addTo(map).bringToBack();
+
+});
+

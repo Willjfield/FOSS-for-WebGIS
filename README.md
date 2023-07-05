@@ -48,11 +48,7 @@ Links
 
 * MapLibre
 
-* d3
-
-* OpenLayers
-
-* Cesium
+* OpenLayers or d3
 
 * Workshop
 

@@ -1,3 +1,5 @@
+//Add filled polygon
+
 let map = L.map('map').setView([40.7, -73.9], 11);
 
 //http://maps.stamen.com/#terrain/12/37.7706/-122.3782
