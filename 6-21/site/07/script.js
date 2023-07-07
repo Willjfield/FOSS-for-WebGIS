@@ -45,19 +45,23 @@ const subways = axios('../data/subways.geojson').then(resp => {
     L.geoJSON(resp.data, {
         style: function (feature) {
             switch (feature.properties.rt_symbol) {
-                case 'A': case 'C': case 'E': return { color: "blue" };
-                case 'B': case 'M': case 'D': return { color: "orange" };
-                case 'N': case 'Q': case 'R': case 'W': return { color: "yellow" };
-                case '1': case '2': case '3': return { color: "red" };
-                case 'J': case 'Z': return { color: "brown" };
-                case '4': case '5': case '6': return { color: "green" };
-                case '7': return { color: "purple" };
-                case 'G': return { color: "lightgreen" };
-                case 'S': case 'L': return { color: "gray" };
-                default: return { color: "black" };
+                case 'A': case 'C': case 'E': return { color: "blue", weight: 5 };
+                case 'B': case 'M': case 'D': return { color: "orange" , weight: 5};
+                case 'N': case 'Q': case 'R': case 'W': return { color: "yellow" , weight: 5};
+                case '1': case '2': case '3': return { color: "red", weight: 5 };
+                case 'J': case 'Z': return { color: "brown" , weight: 5};
+                case '4': case '5': case '6': return { color: "green" , weight: 5};
+                case '7': return { color: "purple" , weight: 5};
+                case 'G': return { color: "lightgreen", weight: 5 };
+                case 'S': case 'L': return { color: "gray" , weight: 5};
+                default: return { color: "black" , weight: 5};
 
 
             }
+        },
+        onEachFeature: function (feature, layer) {
+            console.log(layer)
+            layer.bindPopup(feature.properties.rt_symbol);
         }
     }).addTo(map).bringToBack();
 });

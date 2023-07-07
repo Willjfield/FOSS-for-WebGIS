@@ -78,6 +78,12 @@ const pizza = axios('../data/pizza.geojson').then(resp => {
         fillOpacity: 1
     };
 
+    console.log(resp.data)
+    const points = resp.data.features.map(f => {
+        return [f.geometry.coordinates[1],f.geometry.coordinates[0]];
+    });
+    L.polyline(points, {snakingSpeed: 20}).addTo(map).snakeIn();
+    console.log(points)
     L.geoJSON(resp.data, {
         pointToLayer: function (feature, latlng) {
             return L.circleMarker(latlng, geojsonMarkerOptions);
