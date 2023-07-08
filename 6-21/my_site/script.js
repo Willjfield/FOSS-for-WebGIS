@@ -7,44 +7,43 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map)
 
-// thus ends 00
-
-// thus begins 01
-const marker = L.marker([43.529073, -116.065394]).addTo(map)
-
-marker.bindPopup('<b>City Name</b><br>Sandy Point')
-
-// thus ends 01
-
-// thus begins 02
 
 
-// REMOVE this is diagnostic code
 const filterFeatures = (feature) => 
   feature.properties.PROJ_NAME === 'Shares Basin Fence' ||
   feature.properties.PROJ_NAME === 'Jim Sage Cattleguard' || 
   feature.properties.PROJ_NAME === 'Robber Gulch Pipeline and Troughs' ||
   feature.properties.PROJ_NAME === 'Ski Protection Fence and Cattleguard' ||
-  feature.properties.PROJ_NAME === 'Petan Piute Basin Fence Gate'
+  feature.properties.PROJ_NAME === 'Petan Piute Basin Fence Gate' ||
+  feature.properties.PROJ_NAME === 'Rabbit Creek Pipeline' ||
+  feature.properties.PROJ_NAME === 'Windy Point Pipeline' ||
+  feature.properties.PROJ_NAME === 'Wilson Creek Pipeline' ||
+  feature.properties.PROJ_NAME === 'CHOKECHERRY PIPELINE'
 
+// TODO REMOVE this is diagnostic code
 const filtered_feat_points = axios('blm_idaho_range_improvement_point.geojson')
   .then(resp => {
     console.log(resp.data)
     let filteredData = resp.data.features.filter(filterFeatures)
     console.log('filteredData >> ', filteredData)
-
     filteredData.forEach(feature => {
         console.log('feat_point >> ', feature.properties.POINT_FEAT)
       })
   })
 
+// source: https://github.com/pointhi/leaflet-color-markers
 const pointFeatColors = {
-    "GATE": 'red',
-    "TROUGH": 'blue',
-    "CATTLEGUARD": 'green',
-    "SPRING": 'orange'
+    'AIR VALVE': 'gold',
+    'CATTLEGUARD': 'green',
+    'DRAIN': 'violet',
+    'GATE': 'red',
+    'PRESSURE BREAK': 'black',
+    'SPRING': 'orange',
+    'TROUGH': 'blue',
+    'VALVE': 'yellow',
 }
 
+// https://github.com/pointhi/leaflet-color-markers
 const createColorIcon = (color) => {
     return new L.Icon({
         iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${color}.png`,
@@ -61,12 +60,7 @@ const range_imps = axios('blm_idaho_range_improvement_point.geojson')
         console.log(resp.data)
         L.geoJSON(resp.data, {
             style: { color: '#116ad2' },
-            filter: (feature) => 
-            feature.properties.PROJ_NAME === 'Shares Basin Fence' ||
-            feature.properties.PROJ_NAME === 'Jim Sage Cattleguard' || 
-            feature.properties.PROJ_NAME === 'Robber Gulch Pipeline and Troughs' ||
-            feature.properties.PROJ_NAME === 'Ski Protection Fence and Cattleguard' ||
-            feature.properties.PROJ_NAME === 'Petan Piute Basin Fence Gate',
+            filter: filterFeatures,
             pointToLayer: (feature, latlng) => {
                 let pointFeatColor = pointFeatColors[feature.properties.POINT_FEAT]
                 // fallback color
@@ -77,7 +71,8 @@ const range_imps = axios('blm_idaho_range_improvement_point.geojson')
                 let colorIcon = createColorIcon(pointFeatColor)
                 // use colored icon when creating marker
                 let new_marker = L.marker(latlng, { icon: colorIcon })
-                new_marker.bindPopup('<b>' + feature.properties.PROJ_NAME + '</b><br>' + feature.properties.POINT_FEAT)
+                new_marker.bindPopup(
+                    '<b>' + feature.properties.PROJ_NAME + '</b><br>' + feature.properties.POINT_FEAT)
                 return new_marker
             }
 
