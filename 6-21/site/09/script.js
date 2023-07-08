@@ -1,5 +1,5 @@
-//Add filled polygon
-
+//https://github.com/IvanSanchez/Leaflet.Polyline.SnakeAnim
+//https://ivansanchez.gitlab.io/gleo/
 let map = L.map('map').setView([40.7, -73.9], 11);
 
 //http://maps.stamen.com/#terrain/12/37.7706/-122.3782
@@ -45,23 +45,24 @@ const subways = axios('../data/subways.geojson').then(resp => {
     L.geoJSON(resp.data, {
         style: function (feature) {
             switch (feature.properties.rt_symbol) {
-                case 'A': case 'C': case 'E': return { color: "blue", weight: 5 };
-                case 'B': case 'M': case 'D': return { color: "orange" , weight: 5};
-                case 'N': case 'Q': case 'R': case 'W': return { color: "yellow" , weight: 5};
-                case '1': case '2': case '3': return { color: "red", weight: 5 };
-                case 'J': case 'Z': return { color: "brown" , weight: 5};
-                case '4': case '5': case '6': return { color: "green" , weight: 5};
-                case '7': return { color: "purple" , weight: 5};
-                case 'G': return { color: "lightgreen", weight: 5 };
-                case 'S': case 'L': return { color: "gray" , weight: 5};
-                default: return { color: "black" , weight: 5};
+                case 'A': case 'C': case 'E': return { color: "blue" };
+                case 'B': case 'M': case 'D': return { color: "orange" };
+                case 'N': case 'Q': case 'R': case 'W': return { color: "yellow" };
+                case '1': case '2': case '3': return { color: "red" };
+                case 'J': case 'Z': return { color: "brown" };
+                case '4': case '5': case '6': return { color: "green" };
+                case '7': return { color: "purple" };
+                case 'G': return { color: "lightgreen" };
+                case 'S': case 'L': return { color: "gray" };
+                default: return { color: "black" };
 
 
             }
         },
         onEachFeature: function (feature, layer) {
-            console.log(layer)
-            layer.bindPopup(feature.properties.rt_symbol);
+            if (feature.properties && feature.properties.rt_symbol) {
+                layer.bindPopup(feature.properties.rt_symbol);
+            }
         }
     }).addTo(map).bringToBack();
 });
@@ -81,8 +82,21 @@ const pizza = axios('../data/pizza.geojson').then(resp => {
     L.geoJSON(resp.data, {
         pointToLayer: function (feature, latlng) {
             return L.circleMarker(latlng, geojsonMarkerOptions);
+        },
+        onEachFeature: function (feature, layer) {
+            if (feature.properties && feature.properties.name) {
+                layer.bindPopup(feature.properties.name);
+            }
         }
     }).addTo(map).bringToFront();
+
+    console.log(resp.data)
+
+    const points = resp.data.features
+        .map(f=>new L.LatLng(f.geometry.coordinates[1],f.geometry.coordinates[0]));
+
+    var line = L.polyline(points, {snakingSpeed: 20});
+    line.addTo(map).snakeIn();
 
 });
 
@@ -94,3 +108,4 @@ const walking = axios('../data/walk-area.geojson').then(resp => {
     }).addTo(map).bringToBack();
 
 });
+

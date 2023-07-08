@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Display a map</title>
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+
+    <!-- MapTiler SDK -->
+    <script src="https://cdn.maptiler.com/maptiler-sdk-js/latest/maptiler-sdk.umd.js"></script>
+    <link href="https://cdn.maptiler.com/maptiler-sdk-js/latest/maptiler-sdk.css" rel="stylesheet" />
+
+    <!-- MapTiler SDK + Leaflet bindings -->
+    <script src="https://cdn.maptiler.com/leaflet-maptilersdk/latest/leaflet-maptilersdk.js"></script>
+    <script src="https://cdn.maptiler.com/maptiler-geocoding-control/v0.0.95/leaflet.umd.js"></script>
+    <link href="https://cdn.maptiler.com/maptiler-geocoding-control/v0.0.95/style.css" rel="stylesheet" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <style>
+        #map {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map">
+        <a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;"><img
+                src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
+    </div>
+    <p><a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a
+            href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a></p>
+    <script>
+        const key = '7SGo3nVkTl7JQ90xmJ0i';
+        const map = L.map('map').setView([40.74860435246981, -73.98388941596163], 14); //starting position
+        const mtLayer = L.maptilerLayer({
+            style: "https://api.maptiler.com/maps/0527181a-1a35-4cf8-8a4a-b0efb32259d7/style.json?key=7SGo3nVkTl7JQ90xmJ0i",
+            geolocate:true
+        }).addTo(map);
+        L.control.maptilerGeocoding({ apiKey: key }).addTo(map);
+        const subways = axios('./data/subways.geojson').then(resp => {
+
+            L.geoJSON(resp.data, {
+                style: function (feature) {
+                    switch (feature.properties.rt_symbol) {
+                        case 'A': case 'C': case 'E': return { color: "blue" };
+                        case 'B': case 'M': case 'D': return { color: "orange" };
+                        case 'N': case 'Q': case 'R': case 'W': return { color: "yellow" };
+                        case '1': case '2': case '3': return { color: "red" };
+                        case 'J': case 'Z': return { color: "brown" };
+                        case '4': case '5': case '6': return { color: "green" };
+                        case '7': return { color: "purple" };
+                        case 'G': return { color: "lightgreen" };
+                        case 'S': case 'L': return { color: "gray" };
+                        default: return { color: "black" };
+
+
+                    }
+                },
+                onEachFeature: function (feature, layer) {
+                    if (feature.properties && feature.properties.rt_symbol) {
+                        layer.bindPopup(feature.properties.rt_symbol);
+                    }
+                }
+            }).addTo(map).bringToBack();
+        });
+    </script>
+</body>
+
+</html>

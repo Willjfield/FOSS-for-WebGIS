@@ -1,3 +1,5 @@
+//Add Layer controls
+
 let map = L.map('map').setView([40.7, -73.9], 11);
 
 //http://maps.stamen.com/#terrain/12/37.7706/-122.3782
@@ -78,4 +80,10 @@ const pizza = axios('../data/pizza.geojson').then(resp => {
         }
     }).addTo(map).bringToFront();
 
+})
+
+const walking = axios('../data/walk-area.geojson').then(resp => {
+    L.geoJSON(resp.data, {
+        style: { opacity: 0.95, color: "#000", weight: 2 }
+    }).addTo(map).bringToBack();
 })
