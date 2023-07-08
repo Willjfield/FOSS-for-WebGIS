@@ -74,7 +74,7 @@ function drawMap(data) {
       new_marker.bindPopup(
         'Name: ' 
         +'<b>' + toTitleCase(feature.properties.PROJ_NAME) + '</b><br>' 
-        + 'Feature: ' + '<b>' + toTitleCase(feature.properties.POINT_FEAT)
+        + 'Feature Type: ' + '<b>' + toTitleCase(feature.properties.POINT_FEAT)
         + '</b>')
       return new_marker
     }
