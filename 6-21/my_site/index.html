@@ -12,9 +12,57 @@
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
     crossorigin=""></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 </head>
 <body>
-    <div id="map"></div>
+    <section class="section">
+        <div class="container">
+            <div class="title">
+                <h1>BLM Idaho Range Improvement Point</h1>
+            </div>
+        <p>
+                The Bureau of Land Management, housed within the US Department of 
+                the Interior, manages features that help 
+                sustain the health, diversity, and productivity of public lands.
+                This map shows a subset of the features managed by the BLM in 
+                Idaho, color-coded by type of feature.
+            </p>
+            <br>
+            <p>
+                Current functionality includes:
+                <div class="content">
+                    <ul>
+                        <li>Color coding by feature type</li>
+                        <li>
+                            Clicking on an marker shows the feature name and
+                            type
+                        </li>
+                        <li>
+                            Checkboxes filters which markers show on the map
+                        </li>
+                    </ul>
+                </div>
+            </p>
+        </div>
+        </div>
+        <div class="container">
+            <div id="filters">
+                <label class="checkbox"><input type="checkbox" value="AIR VALVE" checked> Air Valve</label>
+                <label class="checkbox"><input type="checkbox" value="CATTLEGUARD" checked> Cattleguard</label>
+                <label class="checkbox"><input type="checkbox" value="DRAIN" checked> Drain</label>
+                <label class="checkbox"><input type="checkbox" value="GATE" checked> Gate</label>
+                <label class="checkbox"><input type="checkbox" value="PRESSURE BREAK" checked> Pressure Break</label>
+                <label class="checkbox"><input type="checkbox" value="SPRING" checked> Spring</label>
+                <label class="checkbox"><input type="checkbox" value="TROUGH" checked> Trough</label>
+                <label class="checkbox"><input type="checkbox" value="VALVE" checked> Valve</label>
+            </div>
+        </div>
+        <div class="container">
+            <div id="map-container">
+                <div id="map"></div>
+            </div>
+        </div>
+    </section>
 </body>
 <script src="script.js"></script>
 </html>

@@ -1,5 +1,12 @@
-#map { 
-    height: 100%;
-    width: 100%;
+#map-container {
+    position: relative;
+    height: 500px;
+}
+
+#map {
     position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
