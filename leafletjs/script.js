@@ -1,10 +1,16 @@
 console.log('loading: loaded')
 
-let map = L.map('map').setView([45.604, -114.143], 5.91)
+// let map = L.map('map').setView([45.604, -114.143], 5.91)
 
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 19,
-  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+// L.tileLayer('https://api.maptiler.com/maps/topo-v2/style.json?key=eU7KU2yMOEVpP5MBHOFw', {
+//   maxZoom: 19,
+//   attribution: '&copy; <a href="https://www.maptiler.com/copyright/">MapTiler</a>'
+// }).addTo(map)
+
+const key = 'eU7KU2yMOEVpP5MBHOFw'
+const map = L.map('map').setView([45.604, -114.143], 5.91)
+const mtLayer = L.maptilerLayer({
+    style: 'https://api.maptiler.com/maps/topo-v2/style.json?key=eU7KU2yMOEVpP5MBHOFw',
 }).addTo(map)
 
 let activeFilters = new Set([
