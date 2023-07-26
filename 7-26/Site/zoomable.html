@@ -16,10 +16,10 @@
 </body>
 <script>
   
-   d3.json("us.json").then(makeChart);//Load the topojosn
+    d3.json("us.json").then(makeChart);//Load the topojosn
       
     function makeChart(us) {
-        
+        console.log(us)
         const width = 975; //Set the width and height of the canvas
         const height = 610;
 
