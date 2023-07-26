@@ -14,7 +14,7 @@
 <body>
 
 </body>
-
+<!-- Needs to be type=module in order to use await/async -->
 <script type="module">
     const povertyEst = await d3.csv("PovertyEstimates.csv"); //IMPORTANT! Had to delete first rows of metadata and titles
     const us = await d3.json("us.json");
