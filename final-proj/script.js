@@ -8,6 +8,7 @@ const idahoBounds = [
   [-117.243027, 41.988056], // sw coordinates
   [-111.043495, 49.001146], // ne coordinates
 ]
+
 map.on('load', function () {
   // try to fit map to IdahoBounds
   map.fitBounds(idahoBounds, { padding: 20 })
@@ -42,9 +43,11 @@ map.on('load', function () {
         'GATE', '#A691AE',
         'PRESSURE BREAK', '#235FA4',
         'RESERVOIR', '#848FA2',
+        // POND
         'SPRING', '#BDD9BF',
         'TROUGH', '#929084',
         'VALVE', '#058ED9',
+        // WELL
         '#000000'
       ],
       'circle-stroke-width': 0.5,
