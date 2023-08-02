@@ -8,15 +8,15 @@ const idahoBounds = [
   [-117.243027, 41.988056], // sw coordinates
   [-111.043495, 49.001146], // ne coordinates
 ]
-
 map.on('load', function () {
   // try to fit map to IdahoBounds
   map.fitBounds(idahoBounds, { padding: 20 })
 
-  // Adding GeoJSON source
+  // adding GeoJSON source
   map.addSource('blm', {
     type: 'geojson',
     data: 'blm_idaho_range_improvement_point.geojson',
+    promoteId: { 'OBJECTID': 'id' }  // set objectid in GEOJSON to id
   })
 
   // add circle layer for points
@@ -25,8 +25,25 @@ map.on('load', function () {
     type: 'circle',
     source: 'blm',
     paint: {
-      'circle-radius': 6,
-      'circle-color': '#B42222',
+      'circle-radius': [
+        'case',
+        ['boolean', ['feature-state', 'hover'], false ],
+        6,  // when hovered
+        4   // unhovered
+      ],
+      'circle-color': [
+        'match',
+        ['get', 'POINT_FEAT'],
+        'AIR VALVE', '#E8F086',
+        'CATTLEGUARD', '#6FDE6E',
+        'DRAIN', '#FF4242',
+        'GATE', '#A691AE',
+        'PRESSURE BREAK', '#235FA4',
+        'SPRING', '#BDD9BF',
+        'TROUGH', '#929084',
+        'VALVE', '#058ED9',
+        '#000000'
+      ],
       'circle-stroke-width': 0.5,
       'circle-stroke-color': '#000000',
     },
@@ -36,16 +53,32 @@ map.on('load', function () {
   map.on('click', 'blm-points', function (e) {
     new maplibregl.Popup()
       .setLngLat(e.lngLat)
-      .setHTML('<h3>' + e.features[0].properties.PROJ_NAME + '</h3>')
+      .setHTML(
+        '<b>' + 'Project: ' + '</b>' + '<h3>' + e.features[0].properties.PROJ_NAME + '</h3>' +
+        '<b>' + 'Feature Type: ' + '</b>' + '<h3>' + e.features[0].properties.POINT_FEAT + '</h3>'
+      )
       .addTo(map)
   })
 
-  // Change the cursor to a pointer on hover
-  map.on('mouseenter', 'blm-points', function () {
-    map.getCanvas().style.cursor = 'pointer'
+  // mouse enter event to change the cursor and grow the circle
+  map.on('mouseenter', 'blm-points', function (e) {
+    if (Array.isArray(e.features) && e.features.length > 0 && e.features[0].id) {
+      map.getCanvas().style.cursor = 'pointer'
+      map.setFeatureState(
+        { source: 'blm', id: e.features[0].id },
+        { hover: true }
+      )
+    }
   })
 
-  map.on('mouseleave', 'blm-points', function () {
-    map.getCanvas().style.cursor = ''
+  // mouse leave event to revert the cursor and shrink the circle
+  map.on('mouseleave', 'blm-points', function (e) {
+    if (Array.isArray(e.features) && e.features.length > 0 && e.features[0].id) {
+      map.getCanvas().style.cursor = ''
+      map.setFeatureState(
+        { source: 'blm', id: e.features[0].id },
+        { hover: false }
+      )
+    }
   })
 })
