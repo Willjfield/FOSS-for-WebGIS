@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>d3-geo</title>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="https://unpkg.com/topojson-client"></script>
+
+
+</head>
+
+<body>
+</body>
+<!-- Needs to be type=module in order to use await/async -->
+<script type="module">
+    const povertyEst = await d3.csv("PovertyEstimates.csv"); //IMPORTANT! Had to delete first rows of metadata and titles
+    //console.log(povertyEst);
+    const us = await d3.json("us.json");
+
+    makeChart();
+
+    function makeChart() {
+        const color = d3.scaleQuantize([1, 30], d3.schemeBlues[9]); //Round to nearest 1-20 integer and use the built-in blue colorscheme with 9 values to match
+        //console.log(d3.schemeBlues[9])
+        const valuemap = new Map(povertyEst.map(d => [+d.FIPS_Code, d.PCTPOVALL_2021])); //This makes a value map that d3 can easily look up in the color function
+        //console.log(valuemap);
+        const width = 975; //Set the width and height of the canvas
+        const height = 610;
+
+        //Make the map zoomable
+        const zoom = d3.zoom()
+            .scaleExtent([1, 8])
+            .on("zoom", zoomed);
+
+        //Append an svg canvas to the body
+        const svg = d3.select("body")
+            .append("svg")
+            .attr("viewBox", [0, 0, width, height]) //Fixes the aspect ratio
+            .attr("width", width)
+            .attr("height", height)
+            .attr("style", "max-width: 100%; height: auto;")
+            .on("click", reset); //Attach a click event
+
+
+        //The function that will create the path elements in the svg
+        //The function will be used to create the d attr
+        const path = d3.geoPath();
+
+        //Create a group to hold the map
+        const g = svg.append("g");
+
+        //Create a group inside that group
+        const counties = g.append("g")
+            .attr("cursor", "pointer")
+            .selectAll("path")
+            .data(topojson.feature(us, us.objects.counties).features)
+            .join("path")
+            .attr("fill", d => color(valuemap.get(+d.id))) //Important! This (and any data based features) has to come after the data is joined to the path!
+            .on("click", clicked)
+            .attr("d", path); //Takes the joined data and runs it through the path function
+
+        counties.append("title")
+            .text(d => d.properties.name);
+
+        //Remove so we only outline the county selected
+        g.append("path")
+            .attr("fill", "none")
+            .attr("stroke", "none")
+            .attr("stroke-linejoin", "round")
+            .attr("d", path(topojson.mesh(us, us.objects.counties, (a, b) => a !== b))); //Uses the topojson library to transform the topojson mesh into an svg path
+
+        svg.call(zoom); //Call the zoom function from the zoom library
+
+        // Resets the state of the map and zooms out to the initial view.
+        function reset() {
+            counties.transition().style("fill", null);
+            svg.transition().duration(750).call(
+                zoom.transform,
+                d3.zoomIdentity,
+                d3.zoomTransform(svg.node()).invert([width / 2, height / 2])
+            );
+        }
+
+        function clicked(event, d) {
+            const [[x0, y0], [x1, y1]] = path.bounds(d); //Gets the bounds of the path
+            event.stopPropagation();
+            counties.transition().style("stroke", null);
+            d3.select(this).transition().style("stroke", "white"); //Styles the path
+            svg.transition().duration(750).call(
+                zoom.transform,
+                d3.zoomIdentity
+                    .translate(width / 2, height / 2)
+                    .scale(Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height))) //Sets the zoom identity matrix
+                    .translate(-(x0 + x1) / 2, -(y0 + y1) / 2),
+                d3.pointer(event, svg.node())
+            );
+        }
+
+        function zoomed(event) {
+            const { transform } = event;
+            
+            g.attr("transform", transform);
+            g.attr("stroke-width", 3 / transform.k); //K is zoom
+        }
+
+
+
+        return svg.node();
+    }
+
+</script>
+
+</html>
