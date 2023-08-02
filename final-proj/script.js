@@ -35,10 +35,13 @@ map.on('load', function () {
         'match',
         ['get', 'POINT_FEAT'],
         'AIR VALVE', '#E8F086',
+        // BRIDGE
         'CATTLEGUARD', '#6FDE6E',
+        // DAM
         'DRAIN', '#FF4242',
         'GATE', '#A691AE',
         'PRESSURE BREAK', '#235FA4',
+        'RESERVOIR', '#848FA2',
         'SPRING', '#BDD9BF',
         'TROUGH', '#929084',
         'VALVE', '#058ED9',
