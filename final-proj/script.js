@@ -8,7 +8,6 @@ const idahoBounds = [
   [-117.243027, 41.988056], // sw coordinates
   [-111.043495, 49.001146], // ne coordinates
 ]
-
 map.on('load', function () {
   // try to fit map to IdahoBounds
   map.fitBounds(idahoBounds, { padding: 20 })
@@ -17,6 +16,7 @@ map.on('load', function () {
   map.addSource('blm', {
     type: 'geojson',
     data: 'blm_idaho_range_improvement_point.geojson',
+    promoteId: { 'OBJECTID': 'id' }  // set objectid in GEOJSON to id
   })
 
   // add circle layer for points
@@ -62,10 +62,10 @@ map.on('load', function () {
 
   // mouse enter event to change the cursor and grow the circle
   map.on('mouseenter', 'blm-points', function (e) {
-    if (e.features.length > 0) {
+    if (Array.isArray(e.features) && e.features.length > 0 && e.features[0].id) {
       map.getCanvas().style.cursor = 'pointer'
       map.setFeatureState(
-        { source: 'blm', id: e.features[0].properties.OBJECTID },
+        { source: 'blm', id: e.features[0].id },
         { hover: true }
       )
     }
@@ -73,10 +73,10 @@ map.on('load', function () {
 
   // mouse leave event to revert the cursor and shrink the circle
   map.on('mouseleave', 'blm-points', function (e) {
-    if (e.features.length > 0) {
+    if (Array.isArray(e.features) && e.features.length > 0 && e.features[0].id) {
       map.getCanvas().style.cursor = ''
       map.setFeatureState(
-        { source: 'blm', id: e.features[0].properties.OBJECTID },
+        { source: 'blm', id: e.features[0].id },
         { hover: false }
       )
     }
