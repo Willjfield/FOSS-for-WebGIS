@@ -25,7 +25,7 @@
         const color = d3.scaleQuantize([1, 30], d3.schemeBlues[9]); //Round to nearest 1-20 integer and use the built-in blue colorscheme with 9 values to match
         //console.log(d3.schemeBlues[9])
         const valuemap = new Map(povertyEst.map(d => [+d.FIPS_Code, d.PCTPOVALL_2021])); //This makes a value map that d3 can easily look up in the color function
-        console.log(valuemap);
+        //console.log(valuemap);
         const width = 975; //Set the width and height of the canvas
         const height = 610;
 
