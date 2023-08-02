@@ -26,7 +26,19 @@ map.on('load', function () {
     source: 'blm',
     paint: {
       'circle-radius': 6,
-      'circle-color': '#B42222',
+      'circle-color': [
+        'match',
+        ['get', 'POINT_FEAT'],
+        'AIR VALVE', '#E8F086',
+        'CATTLEGUARD', '#6FDE6E',
+        'DRAIN', '#FF4242',
+        'GATE', '#A691AE',
+        'PRESSURE BREAK', '#235FA4',
+        'SPRING', '#BDD9BF',
+        'TROUGH', '#929084',
+        'VALVE', '#058ED9',
+        '#000000'
+      ],
       'circle-stroke-width': 0.5,
       'circle-stroke-color': '#000000',
     },
