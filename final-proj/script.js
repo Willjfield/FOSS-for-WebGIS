@@ -1,103 +1,49 @@
-console.log('loading: loaded')
+let map = new maplibregl.Map({
+  container: 'map',
+  style: 'https://api.maptiler.com/maps/topo-v2/style.json?key=eU7KU2yMOEVpP5MBHOFw',
+  hash: true,
+});
 
-const key = 'eU7KU2yMOEVpP5MBHOFw'
-const map = L.map('map').setView([45.604, -114.143], 5.91)
-const mtLayer = L.maptilerLayer({
-    style: 'https://api.maptiler.com/maps/topo-v2/style.json?key=eU7KU2yMOEVpP5MBHOFw',
-}).addTo(map)
+const idahoBounds = [
+  [-117.243027, 41.988056], // sw coordinates
+  [-111.043495, 49.001146], // ne coordinates
+];
 
-let activeFilters = new Set([
-  'AIR VALVE', 
-  'CATTLEGUARD', 
-  'DRAIN', 
-  'GATE',
-  'PRESSURE BREAK',
-  'SPRING',
-  'TROUGH',
-  'VALVE'
-])
+map.on('load', function () {
+  // try to fit map to IdahoBounds
+  map.fitBounds(idahoBounds, { padding: 20 });
 
-const filterFeatures = (feature) => {
-  return activeFilters.has(feature.properties.POINT_FEAT) &&
-  (
-    feature.properties.PROJ_NAME === 'Shares Basin Fence' ||
-    feature.properties.PROJ_NAME === 'Jim Sage Cattleguard' || 
-    feature.properties.PROJ_NAME === 'Robber Gulch Pipeline and Troughs' ||
-    feature.properties.PROJ_NAME === 'Ski Protection Fence and Cattleguard' ||
-    feature.properties.PROJ_NAME === 'Petan Piute Basin Fence Gate' ||
-    feature.properties.PROJ_NAME === 'Rabbit Creek Pipeline' ||
-    feature.properties.PROJ_NAME === 'Windy Point Pipeline' ||
-    feature.properties.PROJ_NAME === 'Wilson Creek Pipeline' ||
-    feature.properties.PROJ_NAME === 'CHOKECHERRY PIPELINE'
-  )
-}
+  // Adding GeoJSON source
+  map.addSource('blm', {
+    type: 'geojson',
+    data: 'blm_idaho_range_improvement_point.geojson',
+  });
 
-const pointFeatColors = {
-  'AIR VALVE': 'gold',
-  'CATTLEGUARD': 'green',
-  'DRAIN': 'violet',
-  'GATE': 'red',
-  'PRESSURE BREAK': 'black',
-  'SPRING': 'orange',
-  'TROUGH': 'blue',
-  'VALVE': 'yellow',
-}
-
-const createColorIcon = (color) => {
-  return new L.Icon({
-    iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${color}.png`,
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
+  // add circle layer for points
+  map.addLayer({
+    id: 'blm-points',
+    type: 'circle',
+    source: 'blm',
+    paint: {
+      'circle-radius': 6,
+      'circle-color': '#B42222',
+    },
   })
-}
 
-let geoJsonLayer
-
-function drawMap(data) {
-  if (geoJsonLayer) {
-    map.removeLayer(geoJsonLayer)
-  }
-  geoJsonLayer = L.geoJSON(data, {
-    style: { color: '#116ad2' },
-    filter: filterFeatures,
-    pointToLayer: (feature, latlng) => {
-      let pointFeatColor = pointFeatColors[feature.properties.POINT_FEAT]
-      if (!pointFeatColor) {
-        pointFeatColor = 'grey'
-      }
-      let colorIcon = createColorIcon(pointFeatColor)
-      let new_marker = L.marker(latlng, { icon: colorIcon })
-      new_marker.bindPopup(
-        'Name: ' 
-        +'<b>' + toTitleCase(feature.properties.PROJ_NAME) + '</b><br>' 
-        + 'Feature Type: ' + '<b>' + toTitleCase(feature.properties.POINT_FEAT)
-        + '</b>')
-      return new_marker
-    }
-  }).addTo(map)
-}
-
-function toTitleCase(word) {
-  return word.toLowerCase().split(' ').map((new_word) => {
-    return(new_word.charAt(0).toUpperCase() + new_word.slice(1))
-  }).join(' ')
-}
-
-axios('blm_idaho_range_improvement_point.geojson')
-  .then(resp => {
-    drawMap(resp.data)
-    console.log('finished loading')
-    document.querySelectorAll('#filters input[type="checkbox"]').forEach(function (checkbox) {
-      checkbox.addEventListener('change', function () {
-        if (this.checked) {
-          activeFilters.add(this.value)
-        } else {
-          activeFilters.delete(this.value)
-        }
-        drawMap(resp.data)
-      })
-    })
+  // click event to show a popup with the project name
+  map.on('click', 'blm-points', function (e) {
+    new maplibregl.Popup()
+      .setLngLat(e.lngLat)
+      .setHTML('<h3>' + e.features[0].properties.PROJ_NAME + '</h3>')
+      .addTo(map);
   })
+
+  // Change the cursor to a pointer on hover
+  map.on('mouseenter', 'blm-points', function () {
+    map.getCanvas().style.cursor = 'pointer';
+  })
+
+  map.on('mouseleave', 'blm-points', function () {
+    map.getCanvas().style.cursor = '';
+  })
+})
