@@ -13,7 +13,7 @@ map.on('load', function () {
   // try to fit map to IdahoBounds
   map.fitBounds(idahoBounds, { padding: 20 })
 
-  // Adding GeoJSON source
+  // adding GeoJSON source
   map.addSource('blm', {
     type: 'geojson',
     data: 'blm_idaho_range_improvement_point.geojson',
@@ -25,7 +25,12 @@ map.on('load', function () {
     type: 'circle',
     source: 'blm',
     paint: {
-      'circle-radius': 6,
+      'circle-radius': [
+        'case',
+        ['boolean', ['feature-state', 'hover'], false ],
+        6,  // when hovered
+        4   // unhovered
+      ],
       'circle-color': [
         'match',
         ['get', 'POINT_FEAT'],
@@ -48,16 +53,32 @@ map.on('load', function () {
   map.on('click', 'blm-points', function (e) {
     new maplibregl.Popup()
       .setLngLat(e.lngLat)
-      .setHTML('<h3>' + e.features[0].properties.PROJ_NAME + '</h3>')
+      .setHTML(
+        '<b>' + 'Project: ' + '</b>' + '<h3>' + e.features[0].properties.PROJ_NAME + '</h3>' +
+        '<b>' + 'Feature Type: ' + '</b>' + '<h3>' + e.features[0].properties.POINT_FEAT + '</h3>'
+      )
       .addTo(map)
   })
 
-  // Change the cursor to a pointer on hover
-  map.on('mouseenter', 'blm-points', function () {
-    map.getCanvas().style.cursor = 'pointer'
+  // mouse enter event to change the cursor and grow the circle
+  map.on('mouseenter', 'blm-points', function (e) {
+    if (e.features.length > 0) {
+      map.getCanvas().style.cursor = 'pointer'
+      map.setFeatureState(
+        { source: 'blm', id: e.features[0].properties.OBJECTID },
+        { hover: true }
+      )
+    }
   })
 
-  map.on('mouseleave', 'blm-points', function () {
-    map.getCanvas().style.cursor = ''
+  // mouse leave event to revert the cursor and shrink the circle
+  map.on('mouseleave', 'blm-points', function (e) {
+    if (e.features.length > 0) {
+      map.getCanvas().style.cursor = ''
+      map.setFeatureState(
+        { source: 'blm', id: e.features[0].properties.OBJECTID },
+        { hover: false }
+      )
+    }
   })
 })
