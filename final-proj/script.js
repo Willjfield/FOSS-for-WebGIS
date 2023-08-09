@@ -57,7 +57,6 @@ map.on('load', function () {
       updateVisibleFeatures() 
       applyFeatureFilter() 
     } 
-    console.log("Checkbox changed:", e.target.value, "Checked:", e.target.checked) 
   }) 
 
   // click event to show a popup with the project name
