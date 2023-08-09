@@ -104,7 +104,25 @@ const pizza = axios('../data/pizza.geojson').then(resp => {
 const walking = axios('../data/walk-area.geojson').then(resp => {
 
     L.geoJSON(resp.data, {
-        style: { opacity: 0.95, color: "#000", weight: 2 }
+        style: { opacity: 0.95, color: "#000", weight: 2 },
+        onEachFeature: function (feature, layer) {
+            layer.on({
+                click: function(e){
+                    const name = e.target.feature.properties.areaName;
+                    const dataDiv = document.getElementById('clicked-data');
+
+                    const bills = e.target.feature.properties.bills;
+
+                    dataDiv.innerHTML = 'DATA ON FEATURE:';
+                    bills.forEach(bill=>{
+                        let text = `<p>${name} has ${bill.name} which would do ${bill.description}</p>`;
+                        dataDiv.innerHTML += text;
+                    })
+                   
+                    //const stateBills = arrayOfBills.filter(bill => bill.state === name);
+                }
+            });
+        }
     }).addTo(map).bringToBack();
 
 });

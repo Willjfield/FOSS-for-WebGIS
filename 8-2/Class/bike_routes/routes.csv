@@ -1,4 +1,4 @@
-#time,trackpoint_type,latitude,longitude,altitude,accuracy_horizontal,accuracy_vertical,speed,altitude_gain,altitude_loss,sensor_distance,heartrate,cadence,power
+time,trackpoint_type,latitude,longitude,altitude,accuracy_horizontal,accuracy_vertical,speed,altitude_gain,altitude_loss,sensor_distance,heartrate,cadence,power
 "2023-07-18T15:17:17.915-04:00","SEGMENT_START_MANUAL",,,,,,,,,,,,
 "2023-07-18T15:17:35.318-04:00","TRACKPOINT",40.732063,-74.263086,43.164734,6.394,,18.65,0,0,,,,
 "2023-07-18T15:17:37.32-04:00","TRACKPOINT",40.731953,-74.263195,42.621094,5.707,,17.64,0,0,,,,

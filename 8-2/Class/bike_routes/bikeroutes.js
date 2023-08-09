@@ -11,8 +11,9 @@ const map = new maplibregl.Map({
 map.once('load', async () => {
     const response = await axios.get("./routes.csv", { responseType: 'blob', });
     const file = response.data;
+    //console.log(file)
     const obj = csvJSON(await file.text());
-
+    console.log(obj)
     let propertyDataArray = [];
     let p = -1;
     for (let c = 0; c < obj.length; c++) {
@@ -36,7 +37,7 @@ map.once('load', async () => {
         widthMinPixels: 2,
         getPath: d => d,
         getColor: d => [150, 50, 150],
-        getWidth: d => .75,
+        getWidth: .75,
         opacity: 0.1
     }),);
 })

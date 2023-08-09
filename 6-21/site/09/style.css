@@ -9,3 +9,14 @@
     bottom: 0;
     width: 100%;
 }
+
+#clicked-data{
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-height: 200px;
+    width: 500px;
+    z-index: 999;
+    background: white;
+
+}
