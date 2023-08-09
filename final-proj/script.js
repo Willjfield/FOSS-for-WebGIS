@@ -26,38 +26,39 @@ map.on('load', function () {
     type: 'circle',
     source: 'blm',
     paint: {
-      'circle-radius': [
-        'case',
-        ['boolean', ['feature-state', 'hover'], false ],
-        6,  // when hovered
-        4   // unhovered
-      ],
       'circle-color': [
         'match',
         ['get', 'POINT_FEAT'],
-        'AIR VALVE', '#E8F086',
-        // BRIDGE
-        'CATTLEGUARD', '#6FDE6E',
-        // DAM
-        'DRAIN', '#FF4242',
-        'GATE', '#A691AE',
-        // OTHER
-        'PRESSURE BREAK', '#235FA4',
-        'RESERVOIR', '#848FA2',
-        // POND
-        // PUMPHOUSE
-        'SPRING', '#BDD9BF',
-        // STORAGE TANK
-        // TANK
-        'TROUGH', '#929084',
-        'VALVE', '#058ED9',
-        // WELL
-        '#000000'
+        'CATTLEGUARD', '#A691AE',
+        'CULVERT', '#A997DF',
+        'FENCE POINT', '#FFC857',
+        'GATE', '#E8F086',
+        'HEAD BOX', '#BDD9BF',
+        'RESERVOIR', '#FF4242',
+        'POND', '#0A284B',
+        'SPRING', '#235FA4',
+        'TANK', '#E5323B',
+        'VALVE', '#929084',
+        'WELL', '#058ED9',
+        '#FFFFFF'
       ],
+      'circle-radius': 4,
       'circle-stroke-width': 0.5,
-      'circle-stroke-color': '#000000',
-    },
+      'circle-stroke-color': '#000000'
+    }
   })
+
+  updateVisibleFeatures()
+  applyFeatureFilter()
+
+  let filtersContainer = document.getElementById('filters') 
+  filtersContainer.addEventListener('change', function (e) { 
+    if (e.target.tagName === 'INPUT' && e.target.type === 'checkbox') { 
+      updateVisibleFeatures() 
+      applyFeatureFilter() 
+    } 
+    console.log("Checkbox changed:", e.target.value, "Checked:", e.target.checked) 
+  }) 
 
   // click event to show a popup with the project name
   map.on('click', 'blm-points', function (e) {
@@ -92,3 +93,17 @@ map.on('load', function () {
     }
   })
 })
+
+let visibleFeatures = []
+
+function updateVisibleFeatures() {
+  visibleFeatures = []
+  let checkboxes = document.querySelectorAll("#filters input[type='checkbox']:checked")
+  checkboxes.forEach(checkbox => {
+    visibleFeatures.push(checkbox.value)
+  })
+}
+
+function applyFeatureFilter() {
+  map.setFilter('blm-points', ['in', 'POINT_FEAT', ...visibleFeatures])
+}

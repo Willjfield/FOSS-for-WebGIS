@@ -15,4 +15,7 @@ sorted_counts_list = sorted(counts.items(), key=lambda item: item[1], reverse=Tr
 
 sorted_counts_dict = dict(sorted_counts_list)
 
+types_of_feature = len(sorted_counts_dict)
+
 print(sorted_counts_list)
+print(types_of_feature)
