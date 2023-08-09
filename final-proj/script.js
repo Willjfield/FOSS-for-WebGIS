@@ -41,10 +41,14 @@ map.on('load', function () {
         // DAM
         'DRAIN', '#FF4242',
         'GATE', '#A691AE',
+        // OTHER
         'PRESSURE BREAK', '#235FA4',
         'RESERVOIR', '#848FA2',
         // POND
+        // PUMPHOUSE
         'SPRING', '#BDD9BF',
+        // STORAGE TANK
+        // TANK
         'TROUGH', '#929084',
         'VALVE', '#058ED9',
         // WELL
