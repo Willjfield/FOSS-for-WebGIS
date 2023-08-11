@@ -50,13 +50,25 @@ map.on('load', function () {
 
   updateVisibleFeatures()
   applyFeatureFilter()
+  appendColorCirclesToFilters()
 
   let filtersContainer = document.getElementById('filters') 
-  filtersContainer.addEventListener('change', function (e) { 
-    if (e.target.tagName === 'INPUT' && e.target.type === 'checkbox') { 
-      updateVisibleFeatures() 
-      applyFeatureFilter() 
-    } 
+  filtersContainer.addEventListener('click', function(e) {
+    if (e.target && e.target.classList.contains('circle-legend')) {
+      e.preventDefault()  // wow! this was not easy
+
+      let checkbox = e.target.nextElementSibling
+      checkbox.checked = !checkbox.checked
+      // circle color based on the checkbox state
+      if (checkbox.checked) {
+        e.target.style.backgroundColor = e.target.dataset.color
+      } else {
+        e.target.style.backgroundColor = 'white'
+      }
+      // call funcs to udpate
+      updateVisibleFeatures()
+      applyFeatureFilter()
+    }
   }) 
 
   // click event to show a popup with the project name
@@ -105,4 +117,36 @@ function updateVisibleFeatures() {
 
 function applyFeatureFilter() {
   map.setFilter('blm-points', ['in', 'POINT_FEAT', ...visibleFeatures])
+}
+
+function appendColorCirclesToFilters() {
+  let colorMapping = {
+    'CATTLEGUARD': '#A691AE',
+    'CULVERT': '#A997DF',
+    'FENCE POINT': '#FFC857',
+    'GATE': '#E8F086',
+    'HEAD BOX': '#BDD9BF',
+    'RESERVOIR': '#FF4242',
+    'POND': '#0A284B',
+    'SPRING': '#235FA4',
+    'TANK': '#E5323B',
+    'VALVE': '#929084',
+    'WELL': '#058ED9',
+  }
+  let labels = document.querySelectorAll("#filters label")
+    labels.forEach(label => {
+      let featureName = label.querySelector('input').value
+      let colorCircle = document.createElement('span')
+      colorCircle.className = 'circle-legend'
+      colorCircle.dataset.color = colorMapping[featureName] || '#FFFFFF'
+      label.insertBefore(colorCircle, label.firstChild)
+        
+      // initialize the circle color based on the checkbox state
+      let checkbox = label.querySelector('input[type="checkbox"]')
+      if (checkbox.checked) {
+          colorCircle.style.backgroundColor = colorCircle.dataset.color
+      } else {
+          colorCircle.style.backgroundColor = 'white'
+      }
+    })
 }
