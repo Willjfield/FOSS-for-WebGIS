@@ -1,0 +1,33 @@
+#map-container {
+    position: relative;
+    height: 500px;
+}
+
+#map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.checkbox input[type='checkbox'] {
+    display: none;  /* hide default checkbox */
+}
+
+.checkbox .circle-legend {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-left: 2px;
+    margin-right: 2px;
+    vertical-align: middle; 
+    background-color: white;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.checkbox input[type='checkbox']:checked + circle.circle-legend {
+    border: 1px solid transparent; /* remove board when checked? */
+}
