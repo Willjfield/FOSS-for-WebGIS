@@ -5,21 +5,22 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(response => response.text())
     .then(html => {
       navContainer.innerHTML = html
+      // After dynamically adding content, hide filters and map initially
+      hideInitially('filters')
+      hideInitially('map')
     })
-  .catch(err => {
-    console.warn("Navbar not loaded:", err)
-  })
-  // hide filters and map initially
-  document.getElementById('filters').style.opacity = '0'
-  document.getElementById('map').style.opacity = '0'
+    .catch(err => {
+      console.warn("Navbar not loaded:", err)
+    })
 })
 
 let hasScrolled = false
+let hasShownText = false
 let lastScrollTop = 0
 
 window.addEventListener('scroll', () => {
   let scrollTop = window.pageYOffset || document.documentElement.scrollTop
-  
+
   if (scrollTop > lastScrollTop) {
     // User is scrolling down
     if (!hasScrolled && 
@@ -32,11 +33,23 @@ window.addEventListener('scroll', () => {
         prompt.style.display = 'none'
         hasScrolled = true
     }
+    // maps / filters fully opaque AND text hasn't been shown yet
+    else if (hasScrolled && !hasShownText &&
+             isOpaque(document.getElementById('filters')) && 
+             isOpaque(document.getElementById('map'))) {
+                
+        fadeIn('introContainer')
+        hasShownText = true
+    }
   } else {
     // User is scrolling up
-    if (hasScrolled && 
-        isOpaque(document.getElementById('filters')) && 
-        isOpaque(document.getElementById('map'))) {
+    if (hasShownText && isTransparent(document.getElementById('introContainer'))) {
+        fadeOut('introContainer')
+        hasShownText = false
+    }
+    else if (hasScrolled && 
+             isOpaque(document.getElementById('filters')) && 
+             isOpaque(document.getElementById('map'))) {
         
         fadeOut('filters')
         fadeOut('map')
@@ -50,36 +63,36 @@ window.addEventListener('scroll', () => {
 })
 
 function fadeIn(elementId) {
-  let element = document.getElementById(elementId)
-  let opacity = 0
-  let interval = setInterval(() => {
-    if (opacity >= 1) clearInterval(interval)
-    opacity += 0.05
-  element.style.opacity = opacity
-  }, 70)
+  const el = document.getElementById(elementId)
+  el.classList.add('fade-in')
+  el.classList.remove('fade-out')
+  el.style.display = 'block'
 }
 
 function fadeOut(elementId) {
-  let element = document.getElementById(elementId)
-  let opacity = 1 
-  let interval = setInterval(() => {
-    if (opacity <= 0) {
-      clearInterval(interval)
-      element.style.opacity = 0
+  const el = document.getElementById(elementId)
+  el.classList.remove('fade-in')
+  el.classList.add('fade-out')
+
+  setTimeout(() => {
+    if (el.classList.contains('fade-out')) {
+      el.style.display = 'none'
     }
-    opacity -= 0.05
-    element.style.opacity = opacity
-  }, 70)
+  }, 500)
 }
 
+function hideInitially(elementId) {
+  const el = document.getElementById(elementId)
+  el.classList.remove('fade-in')
+  el.classList.add('fade-out')
+}
 
-// nonsense to complete the transitions upon scrolling
 function isOpaque(el) {
-  return parseFloat(el.style.opacity) > 0.9
+  return el.classList.contains('fade-in')
 }
 
 function isTransparent(el) {
-  return parseFloat(el.style.opacity) < 0.1
+  return el.classList.contains('fade-out')
 }
 
 let map = new maplibregl.Map({
