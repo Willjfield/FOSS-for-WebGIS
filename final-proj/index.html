@@ -13,38 +13,47 @@
     <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BLM Idaho Range Improvement Point</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css">
-    <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BLM Idaho Range Improvement Point</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css">
+  <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 </head>
 <body>
-    
-    <section class="section">
-        <div id="navbar"></div>
-        <div class="container">
-            <div id="filters">
-                <label class="checkbox"><input type="checkbox" value="CATTLEGUARD" checked> Cattleguard</label>
-                <label class="checkbox"><input type="checkbox" value="CULVERT" checked> Culvert</label>
-                <label class="checkbox"><input type="checkbox" value="FENCE POINT" checked> Fence Point</label>
-                <label class="checkbox"><input type="checkbox" value="GATE" checked> Gate</label>
-                <label class="checkbox"><input type="checkbox" value="HEAD BOX" checked> Head Box</label>
-                <label class="checkbox"><input type="checkbox" value="POND" checked> Pond</label>
-                <label class="checkbox"><input type="checkbox" value="RESERVOIR" checked> Reservoir</label>
-                <label class="checkbox"><input type="checkbox" value="SPRING" checked> Spring</label>
-                <label class="checkbox"><input type="checkbox" value="TANK" checked> Tank</label>
-                <label class="checkbox"><input type="checkbox" value="WELL" checked> Well</label>
-            </div>
-        </div>
-        <div class="container">
-            <div id="map-container">
-                <div id="map"></div>
-            </div>
-        </div>
-    </section>
+  <section class="section">
+    <div class="container">
+      <div id="navbar"></div>
+    </div>
+    <div class="container">
+      
+      <h2>Bureau of Land Management Idaho Range Improvement Program</h2>
+      <div id="filters">
+        <label class="checkbox"><input type="checkbox" value="CATTLEGUARD" checked> Cattleguard</label>
+        <label class="checkbox"><input type="checkbox" value="CULVERT" checked> Culvert</label>
+        <label class="checkbox"><input type="checkbox" value="FENCE POINT" checked> Fence Point</label>
+        <label class="checkbox"><input type="checkbox" value="GATE" checked> Gate</label>
+        <label class="checkbox"><input type="checkbox" value="HEAD BOX" checked> Head Box</label>
+        <label class="checkbox"><input type="checkbox" value="POND" checked> Pond</label>
+        <label class="checkbox"><input type="checkbox" value="RESERVOIR" checked> Reservoir</label>
+        <label class="checkbox"><input type="checkbox" value="SPRING" checked> Spring</label>
+        <label class="checkbox"><input type="checkbox" value="TANK" checked> Tank</label>
+        <label class="checkbox"><input type="checkbox" value="WELL" checked> Well</label>
+      </div>
+    </div>
+    <div class="container">
+      <div id="map-container">
+        <div id="map"></div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <div id="feature-description"></div>
+    </div>
+  </section>
+  
 </body>
 <script src="script.js"></script>
 </html>
