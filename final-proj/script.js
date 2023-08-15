@@ -1,3 +1,15 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const navContainer = document.getElementById('navbar')
+  fetch('navbar.html')
+    .then(response => response.text())
+    .then(html => {
+      navContainer.innerHTML = html
+    })
+    .catch(err => {
+      console.warn("Navbar not loaded:", err)
+    })
+})
+
 let map = new maplibregl.Map({
   container: 'map',
   style: 'https://api.maptiler.com/maps/topo-v2/style.json?key=eU7KU2yMOEVpP5MBHOFw',

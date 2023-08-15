@@ -29,5 +29,5 @@
 }
 
 .checkbox input[type='checkbox']:checked + circle.circle-legend {
-    border: 1px solid transparent; /* remove board when checked? */
+    border: 1px solid transparent;
 }
