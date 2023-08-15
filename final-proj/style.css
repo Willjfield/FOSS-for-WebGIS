@@ -11,6 +11,15 @@
     right: 0;
 }
 
+#feature-description ul {
+    margin-left: 1em;
+    list-style-type: square;
+}
+
+#feature-description li {
+    margin-bottom: 0.5em;
+}
+
 .checkbox input[type='checkbox'] {
     display: none;  /* hide default checkbox */
 }
@@ -29,5 +38,30 @@
 }
 
 .checkbox input[type='checkbox']:checked + circle.circle-legend {
-    border: 1px solid transparent; /* remove board when checked? */
+    border: 1px solid transparent;
 }
+
+.container h2 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+}
+
+.modal-content h3 {
+    font-size: 1.5em;
+}
+
+.modal-content h4 {
+    font-size: 1.2em;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
+.modal-content ul {
+    margin-left: 1em;
+    list-style-type: circle;
+}
+
+.modal-content li {
+    margin-bottom: 0.5em;
+}
+
