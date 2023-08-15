@@ -11,10 +11,36 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 })
 
+// hide filters and map initially
+document.getElementById('filters').style.opacity = '0'
+document.getElementById('map').style.opacity = '0'
+
+let hasScrolled = false
+
+window.addEventListener('scroll', () => {
+  if (
+    !hasScrolled && 
+    document.getElementById('filters').style.opacity == '0' && 
+    document.getElementById('map').style.opacity == '0'
+  )
+  
+  //fade ins for filters and map
+  fadeIn('filters')
+  fadeIn('map')
+
+  // hide scropt prompt
+  let prompt = document.getElementById('scrollPrompt')
+  prompt.style.display = 'none'
+
+  hasScrolled = true
+
+})
+
 let map = new maplibregl.Map({
   container: 'map',
   style: 'https://api.maptiler.com/maps/topo-v2/style.json?key=eU7KU2yMOEVpP5MBHOFw',
   hash: true,
+  scrollZoom: false // disable map's scroll initially
 })
 
 const idahoBounds = [
