@@ -15,27 +15,40 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 let hasScrolled = false
+let lastScrollTop = 0
 
 window.addEventListener('scroll', () => {
-  if (
-    !hasScrolled && 
-    document.getElementById('filters').style.opacity == '0' && 
-    document.getElementById('map').style.opacity == '0'
-  )
+  let scrollTop = window.pageYOffset || document.documentElement.scrollTop
   
-  // fade ins for filters and map
-  fadeIn('filters')
-  fadeIn('map')
+  if (scrollTop > lastScrollTop) {
+    // User is scrolling down
+    if (!hasScrolled && 
+        isTransparent(document.getElementById('filters')) && 
+        isTransparent(document.getElementById('map'))) {
+        
+        fadeIn('filters')
+        fadeIn('map')
+        let prompt = document.getElementById('scrollPrompt')
+        prompt.style.display = 'none'
+        hasScrolled = true
+    }
+  } else {
+    // User is scrolling up
+    if (hasScrolled && 
+        isOpaque(document.getElementById('filters')) && 
+        isOpaque(document.getElementById('map'))) {
+        
+        fadeOut('filters')
+        fadeOut('map')
+        let prompt = document.getElementById('scrollPrompt')
+        prompt.style.display = 'block'
+        hasScrolled = false
+    }
+  }
 
-  // hide scropt prompt
-  let prompt = document.getElementById('scrollPrompt')
-  prompt.style.display = 'none'
-
-  hasScrolled = true
-
+  lastScrollTop = scrollTop
 })
 
-// fadeIn funciton
 function fadeIn(elementId) {
   let element = document.getElementById(elementId)
   let opacity = 0
@@ -44,6 +57,29 @@ function fadeIn(elementId) {
     opacity += 0.05
   element.style.opacity = opacity
   }, 70)
+}
+
+function fadeOut(elementId) {
+  let element = document.getElementById(elementId)
+  let opacity = 1 
+  let interval = setInterval(() => {
+    if (opacity <= 0) {
+      clearInterval(interval)
+      element.style.opacity = 0
+    }
+    opacity -= 0.05
+    element.style.opacity = opacity
+  }, 70)
+}
+
+
+// nonsense to complete the transitions upon scrolling
+function isOpaque(el) {
+  return parseFloat(el.style.opacity) > 0.9
+}
+
+function isTransparent(el) {
+  return parseFloat(el.style.opacity) < 0.1
 }
 
 let map = new maplibregl.Map({
