@@ -1,6 +1,6 @@
 #map-container {
     position: relative;
-    height: 750px;
+    height: 600px;
 }
 
 #map {
@@ -34,4 +34,5 @@
 
 .navbar-end {
     padding-right: 100px;
+    margin-top: -2em;
 }
