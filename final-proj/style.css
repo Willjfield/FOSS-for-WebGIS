@@ -11,6 +11,15 @@
     right: 0;
 }
 
+#feature-description ul {
+    margin-left: 1em;
+    list-style-type: square;
+}
+
+#feature-description li {
+    margin-bottom: 0.5em;
+}
+
 .checkbox input[type='checkbox'] {
     display: none;  /* hide default checkbox */
 }
@@ -47,9 +56,9 @@
     margin-bottom: 0.5em;
 }
 
-.modal-content ol {
+.modal-content ul {
     margin-left: 1em;
-    list-style-type: decimal;
+    list-style-type: circle;
 }
 
 .modal-content li {
