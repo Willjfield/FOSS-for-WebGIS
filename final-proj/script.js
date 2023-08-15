@@ -9,11 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
   .catch(err => {
     console.warn("Navbar not loaded:", err)
   })
+  // hide filters and map initially
+  document.getElementById('filters').style.opacity = '0'
+  document.getElementById('map').style.opacity = '0'
 })
-
-// hide filters and map initially
-document.getElementById('filters').style.opacity = '0'
-document.getElementById('map').style.opacity = '0'
 
 let hasScrolled = false
 
@@ -24,7 +23,7 @@ window.addEventListener('scroll', () => {
     document.getElementById('map').style.opacity == '0'
   )
   
-  //fade ins for filters and map
+  // fade ins for filters and map
   fadeIn('filters')
   fadeIn('map')
 
@@ -35,6 +34,17 @@ window.addEventListener('scroll', () => {
   hasScrolled = true
 
 })
+
+// fadeIn funciton
+function fadeIn(elementId) {
+  let element = document.getElementById(elementId)
+  let opacity = 0
+  let interval = setInterval(() => {
+    if (opacity >= 1) clearInterval(interval)
+    opacity += 0.05
+  element.style.opacity = opacity
+  }, 70)
+}
 
 let map = new maplibregl.Map({
   container: 'map',
