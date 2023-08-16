@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLM Idaho Range Improvement Point</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css">
+    <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+    
+    <section class="section">
+        <div id="navbar"></div>
+        <div class="container">
+            <div id="filters">
+                <label class="checkbox"><input type="checkbox" value="CATTLEGUARD" checked> Cattleguard</label>
+                <label class="checkbox"><input type="checkbox" value="CULVERT" checked> Culvert</label>
+                <label class="checkbox"><input type="checkbox" value="FENCE POINT" checked> Fence Point</label>
+                <label class="checkbox"><input type="checkbox" value="GATE" checked> Gate</label>
+                <label class="checkbox"><input type="checkbox" value="HEAD BOX" checked> Head Box</label>
+                <label class="checkbox"><input type="checkbox" value="POND" checked> Pond</label>
+                <label class="checkbox"><input type="checkbox" value="RESERVOIR" checked> Reservoir</label>
+                <label class="checkbox"><input type="checkbox" value="SPRING" checked> Spring</label>
+                <label class="checkbox"><input type="checkbox" value="TANK" checked> Tank</label>
+                <label class="checkbox"><input type="checkbox" value="WELL" checked> Well</label>
+            </div>
+        </div>
+        <div class="container">
+            <div id="map-container">
+                <div id="map"></div>
+            </div>
+        </div>
+        <div class="container">
+            <div id="introContainer" style="opacity:0; background-color: grey; padding: 20px; transition: opacity 1s;">
+                <h3>Bureau of Land Management Idaho Range Improvement Program</h3>
+                <p>
+                    The BLM supports a series of goals via it's range improvement
+                    program, which is administered on publically owned land
+                    <ol>
+                        <li>Land health / ecosystem restoration</li>
+                        <li> Sustainable livestock grazing</li>
+                        <li>Wildlife habitat support</li>
+                        <li>Water resource management</li>
+                        <li>Cultural/recreational uses </li>
+                    </ol>
+                </p>
+            </div>
+        </div>
+    </section>
+    <div id="scrollPrompt">Scroll to start...</div>
+</body>
+<script src="script.js"></script>
+</html>

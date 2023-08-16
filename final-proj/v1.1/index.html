@@ -10,9 +10,36 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 </head>
 <body>
-    
     <section class="section">
-        <div id="navbar"></div>
+        <div class="container">
+            <div class="title">
+                <h1>BLM Idaho Range Improvement Point</h1>
+            </div>
+        <p>
+                The Bureau of Land Management, housed within the US Department of 
+                the Interior, manages features that help 
+                sustain the health, diversity, and productivity of public lands.
+                This map shows a subset of the features managed by the BLM in 
+                Idaho, color-coded by type of feature.
+            </p>
+            <br>
+            <p>
+                Current functionality includes:
+                <div class="content">
+                    <ul>
+                        <li>Color coding by feature type</li>
+                        <li>
+                            Clicking on an marker shows the feature name and
+                            type
+                        </li>
+                        <li>
+                            Checkboxes filters which markers show on the map
+                        </li>
+                    </ul>
+                </div>
+            </p>
+        </div>
+        </div>
         <div class="container">
             <div id="filters">
                 <label class="checkbox"><input type="checkbox" value="CATTLEGUARD" checked> Cattleguard</label>
@@ -32,24 +59,7 @@
                 <div id="map"></div>
             </div>
         </div>
-        <div class="container">
-            <div id="introContainer" style="opacity:0; background-color: grey; padding: 20px; transition: opacity 1s;">
-                <h3>Bureau of Land Management Idaho Range Improvement Program</h3>
-                <p>
-                    The BLM supports a series of goals via it's range improvement
-                    program, which is administered on publically owned land
-                    <ol>
-                        <li>Land health / ecosystem restoration</li>
-                        <li> Sustainable livestock grazing</li>
-                        <li>Wildlife habitat support</li>
-                        <li>Water resource management</li>
-                        <li>Cultural/recreational uses </li>
-                    </ol>
-                </p>
-            </div>
-        </div>
     </section>
-    <div id="scrollPrompt">Scroll to start...</div>
 </body>
 <script src="script.js"></script>
 </html>
